@@ -22,6 +22,7 @@ let Helper = Helper_1 = class Helper {
      * @param type Component type or native element type.
      * @param properties Element properties.
      * @param children Element children.
+     * @throws Throws a type error when the element or component type is unsupported.
      */
     static create(type, properties, ...children) {
         if (type instanceof Function) {
@@ -39,6 +40,7 @@ let Helper = Helper_1 = class Helper {
      * @param parent Parent element.
      * @param children Children elements.
      * @returns Returns the parent element.
+     * @throws Throws a type error when the child type is unsupported.
      */
     static append(element, ...children) {
         for (const child of children) {

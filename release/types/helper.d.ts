@@ -13,6 +13,7 @@ export declare class Helper {
      * @param type Component type or native element type.
      * @param properties Element properties.
      * @param children Element children.
+     * @throws Throws a type error when the element or component type is unsupported.
      */
     static create(type: string | Component, properties: Properties, ...children: any[]): JSX.Element;
     /**
@@ -20,6 +21,7 @@ export declare class Helper {
      * @param parent Parent element.
      * @param children Children elements.
      * @returns Returns the parent element.
+     * @throws Throws a type error when the child type is unsupported.
      */
     static append(element: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot;
     /**
