@@ -7,7 +7,7 @@
   "name": "@singleware/jsx",
   "description": "Singleware JSX package.",
   "license": "MIT",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [
@@ -23,10 +23,10 @@
     "node": ">=8"
   },
   "dependencies": {
-    "@singleware/class": "^1.0.12"
+    "@singleware/class": "^1.1.9"
   },
   "devDependencies": {
-    "prettier": "^1.14.0",
+    "prettier": "^1.14.2",
     "typescript": "^2.9.2"
   },
   "prettier": {
