@@ -28,9 +28,9 @@ export class Helper {
   @Class.Public()
   public static create(type: string | Component, properties: Properties, ...children: any[]): JSX.Element {
     if (type instanceof Function) {
-      return Helper.createFromComponent(type, properties, ...children);
+      return this.createFromComponent(type, properties, ...children);
     } else if (typeof type === 'string') {
-      return Helper.createFromElement(type, properties, ...children);
+      return this.createFromElement(type, properties, ...children);
     } else {
       throw new TypeError(`Unsupported element or component type "${type}"`);
     }
@@ -46,16 +46,17 @@ export class Helper {
   @Class.Public()
   public static append(element: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot {
     for (const child of children) {
-      if (child instanceof NodeList || child instanceof Array) {
-        Helper.append(element, ...child);
-      } else if (child instanceof Node) {
+      if (child instanceof Node) {
         element.appendChild(child);
+      } else if (child instanceof NodeList || child instanceof Array) {
+        this.append(element, ...child);
       } else if (typeof child === 'string' || typeof child === 'number') {
-        Helper.renderer.innerHTML = <string>child;
-        Helper.append(element, ...Helper.renderer.childNodes);
+        this.renderer.innerHTML = <string>child;
+        this.append(element, ...this.renderer.childNodes);
       } else if (child) {
-        if (child.element instanceof Node) {
-          element.appendChild(child.element);
+        const node = child.element;
+        if (node instanceof Node) {
+          this.append(element, node);
         } else {
           throw new TypeError(`Unsupported child type "${child}"`);
         }
@@ -110,6 +111,6 @@ export class Helper {
         }
       }
     }
-    return Helper.append(element, ...children);
+    return this.append(element, ...children);
   }
 }

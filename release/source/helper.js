@@ -6,8 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Helper_1;
-"use strict";
 /**
  * Copyright (C) 2018 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
@@ -16,7 +14,7 @@ const Class = require("@singleware/class");
 /**
  * Provides methods that helps with DOM.
  */
-let Helper = Helper_1 = class Helper {
+let Helper = class Helper {
     /**
      * Creates an element with the specified type.
      * @param type Component type or native element type.
@@ -26,10 +24,10 @@ let Helper = Helper_1 = class Helper {
      */
     static create(type, properties, ...children) {
         if (type instanceof Function) {
-            return Helper_1.createFromComponent(type, properties, ...children);
+            return this.createFromComponent(type, properties, ...children);
         }
         else if (typeof type === 'string') {
-            return Helper_1.createFromElement(type, properties, ...children);
+            return this.createFromElement(type, properties, ...children);
         }
         else {
             throw new TypeError(`Unsupported element or component type "${type}"`);
@@ -44,19 +42,20 @@ let Helper = Helper_1 = class Helper {
      */
     static append(element, ...children) {
         for (const child of children) {
-            if (child instanceof NodeList || child instanceof Array) {
-                Helper_1.append(element, ...child);
-            }
-            else if (child instanceof Node) {
+            if (child instanceof Node) {
                 element.appendChild(child);
             }
+            else if (child instanceof NodeList || child instanceof Array) {
+                this.append(element, ...child);
+            }
             else if (typeof child === 'string' || typeof child === 'number') {
-                Helper_1.renderer.innerHTML = child;
-                Helper_1.append(element, ...Helper_1.renderer.childNodes);
+                this.renderer.innerHTML = child;
+                this.append(element, ...this.renderer.childNodes);
             }
             else if (child) {
-                if (child.element instanceof Node) {
-                    element.appendChild(child.element);
+                const node = child.element;
+                if (node instanceof Node) {
+                    this.append(element, node);
                 }
                 else {
                     throw new TypeError(`Unsupported child type "${child}"`);
@@ -107,7 +106,7 @@ let Helper = Helper_1 = class Helper {
                 }
             }
         }
-        return Helper_1.append(element, ...children);
+        return this.append(element, ...children);
     }
 };
 /**
@@ -132,7 +131,7 @@ __decorate([
 __decorate([
     Class.Private()
 ], Helper, "createFromElement", null);
-Helper = Helper_1 = __decorate([
+Helper = __decorate([
     Class.Describe()
 ], Helper);
 exports.Helper = Helper;
