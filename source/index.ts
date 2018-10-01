@@ -11,3 +11,4 @@ import { Helper } from './helper';
 export const create = Helper.create;
 export const append = Helper.append;
 export const clear = Helper.clear;
+export const isChildOf = Helper.isChildOf;

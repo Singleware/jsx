@@ -12,19 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 /**
- * Provides methods that helps with DOM.
+ * Provides methods to help DOM.
  */
 let Helper = class Helper {
     /**
      * Creates an element with the specified type.
-     * @param type Component type or native element type.
+     * @param type Component type or native element tag name.
      * @param properties Element properties.
      * @param children Element children.
      * @throws Throws a type error when the element or component type is unsupported.
      */
     static create(type, properties, ...children) {
         if (type instanceof Function) {
-            return this.createFromComponent(type, properties, ...children);
+            return new type(properties, children).element;
         }
         else if (typeof type === 'string') {
             return this.createFromElement(type, properties, ...children);
@@ -34,7 +34,7 @@ let Helper = class Helper {
         }
     }
     /**
-     * Appends the specified children into the specified parent element.
+     * Appends the specified children into the given parent element.
      * @param parent Parent element.
      * @param children Children elements.
      * @returns Returns the parent element.
@@ -76,43 +76,135 @@ let Helper = class Helper {
         return element;
     }
     /**
-     * Creates a new component with the specified type.
-     * @param type Component type.
-     * @param properties Component properties.
-     * @param children Component children.
-     * @returns Returns the component instance.
+     * Determines whether the specified node is a child of the given parent element.
+     * @param node Child node.
+     * @param parent Parent element.
+     * @returns Returns true when the specified node is child of the given parent, false otherwise.
      */
-    static createFromComponent(type, properties, ...children) {
-        return new type(properties, children).element;
+    static isChildOf(node, parent) {
+        while (node.parentElement) {
+            if (node.parentElement === parent) {
+                return true;
+            }
+            node = node.parentElement;
+        }
+        return false;
+    }
+    /**
+     * Assign the specified properties into the given element.
+     * @param element Element instance.
+     * @param properties Element properties.
+     */
+    static assignProperties(element, properties) {
+        for (const property in properties) {
+            if (properties[property] === void 0) {
+                continue;
+            }
+            if (property in element) {
+                element[property] = properties[property];
+            }
+            else {
+                const event = property.toLowerCase();
+                if (this.eventMap.includes(event)) {
+                    element.addEventListener(event.substr(2), properties[property]);
+                }
+                else {
+                    element.setAttribute(property, properties[property]);
+                }
+            }
+        }
     }
     /**
      * Creates a native element with the specified type.
      * @param type Element type.
      * @param properties Element properties.
-     * @param children Element children.
+     * @param children Element children list.
      * @returns Returns the element instance.
      */
     static createFromElement(type, properties, ...children) {
         const element = document.createElement(type);
         if (properties) {
-            for (const name in properties) {
-                if (properties[name] !== void 0) {
-                    if (name in element) {
-                        element[name] = properties[name];
-                    }
-                    else {
-                        element.setAttribute(name, properties[name]);
-                    }
-                }
-            }
+            this.assignProperties(element, properties);
         }
         return this.append(element, ...children);
     }
 };
 /**
+ * Known events to automate listeners.
+ */
+Helper.eventMap = [
+    // Form events
+    'onblur',
+    'onchange',
+    'oncontextmenu',
+    'onfocus',
+    'oninput',
+    'oninvalid',
+    'onreset',
+    'onsearch',
+    'onselect',
+    'onsubmit',
+    // Keyboard events
+    'onkeydown',
+    'onkeypress',
+    'onkeyup',
+    // Mouse events
+    'onclick',
+    'ondblclick',
+    'onmousedown',
+    'onmousemove',
+    'onmouseout',
+    'onmouseover',
+    'onmouseup',
+    'onmousewheel',
+    'onwheel',
+    // Drag events
+    'ondrag',
+    'ondragend',
+    'ondragenter',
+    'ondragleave',
+    'ondragover',
+    'ondragstart',
+    'ondrop',
+    'onscroll',
+    // Clipboard events
+    'oncopy',
+    'oncut',
+    'onpaste',
+    // Media events
+    'onabort',
+    'oncanplay',
+    'oncanplaythrough',
+    'oncuechange',
+    'ondurationchange',
+    'onemptied',
+    'onended',
+    'onerror',
+    'onloadeddata',
+    'onloadedmetadata',
+    'onloadstart',
+    'onpause',
+    'onplay',
+    'onplaying',
+    'onprogress',
+    'onratechange',
+    'onseeked',
+    'onseeking',
+    'onstalled',
+    'onsuspend',
+    'ontimeupdate',
+    'onvolumechange',
+    'onwaiting',
+    // Misc events
+    'ontoggle'
+];
+/**
  * Renderer for temporary elements.
  */
 Helper.renderer = document.createElement('body');
+__decorate([
+    Class.Private()
+], Helper, "eventMap", void 0);
 __decorate([
     Class.Private()
 ], Helper, "renderer", void 0);
@@ -126,8 +218,11 @@ __decorate([
     Class.Public()
 ], Helper, "clear", null);
 __decorate([
+    Class.Public()
+], Helper, "isChildOf", null);
+__decorate([
     Class.Private()
-], Helper, "createFromComponent", null);
+], Helper, "assignProperties", null);
 __decorate([
     Class.Private()
 ], Helper, "createFromElement", null);

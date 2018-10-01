@@ -5,3 +5,4 @@ const helper_1 = require("./helper");
 exports.create = helper_1.Helper.create;
 exports.append = helper_1.Helper.append;
 exports.clear = helper_1.Helper.clear;
+exports.isChildOf = helper_1.Helper.isChildOf;

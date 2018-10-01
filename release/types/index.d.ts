@@ -8,3 +8,4 @@ import { Helper } from './helper';
 export declare const create: typeof Helper.create;
 export declare const append: typeof Helper.append;
 export declare const clear: typeof Helper.clear;
+export declare const isChildOf: typeof Helper.isChildOf;

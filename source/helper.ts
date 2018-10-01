@@ -8,19 +8,90 @@ import { Component } from './component';
 import { Properties } from './properties';
 
 /**
- * Provides methods that helps with DOM.
+ * Provides methods to help DOM.
  */
 @Class.Describe()
 export class Helper {
   /**
+   * Known events to automate listeners.
+   */
+  @Class.Private()
+  private static eventMap = [
+    // Form events
+    'onblur',
+    'onchange',
+    'oncontextmenu',
+    'onfocus',
+    'oninput',
+    'oninvalid',
+    'onreset',
+    'onsearch',
+    'onselect',
+    'onsubmit',
+    // Keyboard events
+    'onkeydown',
+    'onkeypress',
+    'onkeyup',
+    // Mouse events
+    'onclick',
+    'ondblclick',
+    'onmousedown',
+    'onmousemove',
+    'onmouseout',
+    'onmouseover',
+    'onmouseup',
+    'onmousewheel',
+    'onwheel',
+    // Drag events
+    'ondrag',
+    'ondragend',
+    'ondragenter',
+    'ondragleave',
+    'ondragover',
+    'ondragstart',
+    'ondrop',
+    'onscroll',
+    // Clipboard events
+    'oncopy',
+    'oncut',
+    'onpaste',
+    // Media events
+    'onabort',
+    'oncanplay',
+    'oncanplaythrough',
+    'oncuechange',
+    'ondurationchange',
+    'onemptied',
+    'onended',
+    'onerror',
+    'onloadeddata',
+    'onloadedmetadata',
+    'onloadstart',
+    'onpause',
+    'onplay',
+    'onplaying',
+    'onprogress',
+    'onratechange',
+    'onseeked',
+    'onseeking',
+    'onstalled',
+    'onsuspend',
+    'ontimeupdate',
+    'onvolumechange',
+    'onwaiting',
+    // Misc events
+    'ontoggle'
+  ] as string[];
+
+  /**
    * Renderer for temporary elements.
    */
   @Class.Private()
-  private static renderer = document.createElement('body');
+  private static renderer = document.createElement('body') as HTMLBodyElement;
 
   /**
    * Creates an element with the specified type.
-   * @param type Component type or native element type.
+   * @param type Component type or native element tag name.
    * @param properties Element properties.
    * @param children Element children.
    * @throws Throws a type error when the element or component type is unsupported.
@@ -28,7 +99,7 @@ export class Helper {
   @Class.Public()
   public static create(type: string | Component, properties: Properties, ...children: any[]): JSX.Element {
     if (type instanceof Function) {
-      return this.createFromComponent(type, properties, ...children);
+      return new type(properties, children).element;
     } else if (typeof type === 'string') {
       return this.createFromElement(type, properties, ...children);
     } else {
@@ -37,7 +108,7 @@ export class Helper {
   }
 
   /**
-   * Appends the specified children into the specified parent element.
+   * Appends the specified children into the given parent element.
    * @param parent Parent element.
    * @param children Children elements.
    * @returns Returns the parent element.
@@ -79,37 +150,58 @@ export class Helper {
   }
 
   /**
-   * Creates a new component with the specified type.
-   * @param type Component type.
-   * @param properties Component properties.
-   * @param children Component children.
-   * @returns Returns the component instance.
+   * Determines whether the specified node is a child of the given parent element.
+   * @param node Child node.
+   * @param parent Parent element.
+   * @returns Returns true when the specified node is child of the given parent, false otherwise.
+   */
+  @Class.Public()
+  public static isChildOf(node: Node, parent: HTMLElement): boolean {
+    while (node.parentElement) {
+      if (node.parentElement === parent) {
+        return true;
+      }
+      node = node.parentElement;
+    }
+    return false;
+  }
+
+  /**
+   * Assign the specified properties into the given element.
+   * @param element Element instance.
+   * @param properties Element properties.
    */
   @Class.Private()
-  private static createFromComponent(type: Component, properties: Properties, ...children: any[]): JSX.Element {
-    return new type(properties, children).element;
+  private static assignProperties(element: any, properties: Properties): void {
+    for (const property in properties) {
+      if (properties[property] === void 0) {
+        continue;
+      }
+      if (property in element) {
+        element[property] = properties[property];
+      } else {
+        const event = property.toLowerCase();
+        if (this.eventMap.includes(event)) {
+          element.addEventListener(event.substr(2), properties[property]);
+        } else {
+          element.setAttribute(property, properties[property]);
+        }
+      }
+    }
   }
 
   /**
    * Creates a native element with the specified type.
    * @param type Element type.
    * @param properties Element properties.
-   * @param children Element children.
+   * @param children Element children list.
    * @returns Returns the element instance.
    */
   @Class.Private()
   private static createFromElement(type: string, properties: Properties, ...children: Element[]): JSX.Element {
     const element = <any>document.createElement(type);
     if (properties) {
-      for (const name in properties) {
-        if (properties[name] !== void 0) {
-          if (name in element) {
-            element[name] = properties[name];
-          } else {
-            element.setAttribute(name, properties[name]);
-          }
-        }
-      }
+      this.assignProperties(element, properties);
     }
     return this.append(element, ...children);
   }
