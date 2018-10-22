@@ -5,10 +5,10 @@
 export { Component } from './component';
 export { Properties } from './properties';
 
-import { Helper } from './helper';
+const Helper = require(`./helpers/${typeof window !== 'undefined' ? 'browser' : 'text'}`).Helper;
 
 // Aliases
 export const create = Helper.create;
 export const append = Helper.append;
 export const clear = Helper.clear;
-export const isChildOf = Helper.isChildOf;
+export const childOf = Helper.childOf;

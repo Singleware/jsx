@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const helper_1 = require("./helper");
+const Helper = require(`./helpers/${typeof window !== 'undefined' ? 'browser' : 'text'}`).Helper;
 // Aliases
-exports.create = helper_1.Helper.create;
-exports.append = helper_1.Helper.append;
-exports.clear = helper_1.Helper.clear;
-exports.isChildOf = helper_1.Helper.isChildOf;
+exports.create = Helper.create;
+exports.append = Helper.append;
+exports.clear = Helper.clear;
+exports.childOf = Helper.childOf;

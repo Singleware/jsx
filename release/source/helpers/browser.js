@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 /**
- * Provides methods to help DOM.
+ * Provides methods to help with Browser DOM.
  */
 let Helper = class Helper {
     /**
@@ -40,29 +40,29 @@ let Helper = class Helper {
      * @returns Returns the parent element.
      * @throws Throws a type error when the child type is unsupported.
      */
-    static append(element, ...children) {
+    static append(parent, ...children) {
         for (const child of children) {
             if (child instanceof Node) {
-                element.appendChild(child);
+                parent.appendChild(child);
             }
             else if (child instanceof NodeList || child instanceof Array) {
-                this.append(element, ...child);
+                this.append(parent, ...child);
             }
             else if (typeof child === 'string' || typeof child === 'number') {
                 this.renderer.innerHTML = child;
-                this.append(element, ...this.renderer.childNodes);
+                this.append(parent, ...this.renderer.childNodes);
             }
             else if (child) {
                 const node = child.element;
                 if (node instanceof Node) {
-                    this.append(element, node);
+                    this.append(parent, node);
                 }
                 else {
                     throw new TypeError(`Unsupported child type "${child}"`);
                 }
             }
         }
-        return element;
+        return parent;
     }
     /**
      * Clear all children of the specified element.
@@ -77,11 +77,11 @@ let Helper = class Helper {
     }
     /**
      * Determines whether the specified node is a child of the given parent element.
-     * @param node Child node.
      * @param parent Parent element.
+     * @param node Child node.
      * @returns Returns true when the specified node is child of the given parent, false otherwise.
      */
-    static isChildOf(node, parent) {
+    static childOf(parent, node) {
         while (node.parentElement) {
             if (node.parentElement === parent) {
                 return true;
@@ -219,7 +219,7 @@ __decorate([
 ], Helper, "clear", null);
 __decorate([
     Class.Public()
-], Helper, "isChildOf", null);
+], Helper, "childOf", null);
 __decorate([
     Class.Private()
 ], Helper, "assignProperties", null);

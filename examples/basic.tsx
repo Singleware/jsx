@@ -9,3 +9,5 @@ import * as DOM from '../source';
 
 const link = <a href="/test">Test link.</a>;
 const div = <div>{link}</div>;
+
+console.log(div);

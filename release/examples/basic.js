@@ -10,3 +10,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const DOM = require("../source");
 const link = DOM.create("a", { href: "/test" }, "Test link.");
 const div = DOM.create("div", null, link);
+console.log(div);

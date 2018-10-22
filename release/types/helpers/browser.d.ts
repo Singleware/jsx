@@ -1,7 +1,7 @@
-import { Component } from './component';
-import { Properties } from './properties';
+import { Component } from '../component';
+import { Properties } from '../properties';
 /**
- * Provides methods to help DOM.
+ * Provides methods to help with Browser DOM.
  */
 export declare class Helper {
     /**
@@ -27,20 +27,20 @@ export declare class Helper {
      * @returns Returns the parent element.
      * @throws Throws a type error when the child type is unsupported.
      */
-    static append(element: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot;
+    static append(parent: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot;
     /**
      * Clear all children of the specified element.
      * @param element Element instance.
      * @returns Returns the cleared element instance.
      */
-    static clear(element: HTMLElement): HTMLElement;
+    static clear(element: HTMLElement | ShadowRoot): HTMLElement | ShadowRoot;
     /**
      * Determines whether the specified node is a child of the given parent element.
-     * @param node Child node.
      * @param parent Parent element.
+     * @param node Child node.
      * @returns Returns true when the specified node is child of the given parent, false otherwise.
      */
-    static isChildOf(node: Node, parent: HTMLElement): boolean;
+    static childOf(parent: HTMLElement | ShadowRoot, node: Node): boolean;
     /**
      * Assign the specified properties into the given element.
      * @param element Element instance.

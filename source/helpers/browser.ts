@@ -4,11 +4,11 @@
  */
 import * as Class from '@singleware/class';
 
-import { Component } from './component';
-import { Properties } from './properties';
+import { Component } from '../component';
+import { Properties } from '../properties';
 
 /**
- * Provides methods to help DOM.
+ * Provides methods to help with Browser DOM.
  */
 @Class.Describe()
 export class Helper {
@@ -115,25 +115,25 @@ export class Helper {
    * @throws Throws a type error when the child type is unsupported.
    */
   @Class.Public()
-  public static append(element: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot {
+  public static append(parent: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot {
     for (const child of children) {
       if (child instanceof Node) {
-        element.appendChild(child);
+        parent.appendChild(child);
       } else if (child instanceof NodeList || child instanceof Array) {
-        this.append(element, ...child);
+        this.append(parent, ...child);
       } else if (typeof child === 'string' || typeof child === 'number') {
         this.renderer.innerHTML = <string>child;
-        this.append(element, ...this.renderer.childNodes);
+        this.append(parent, ...this.renderer.childNodes);
       } else if (child) {
         const node = child.element;
         if (node instanceof Node) {
-          this.append(element, node);
+          this.append(parent, node);
         } else {
           throw new TypeError(`Unsupported child type "${child}"`);
         }
       }
     }
-    return element;
+    return parent;
   }
 
   /**
@@ -142,7 +142,7 @@ export class Helper {
    * @returns Returns the cleared element instance.
    */
   @Class.Public()
-  public static clear(element: HTMLElement): HTMLElement {
+  public static clear(element: HTMLElement | ShadowRoot): HTMLElement | ShadowRoot {
     while (element.firstChild) {
       element.removeChild(element.firstChild);
     }
@@ -151,12 +151,12 @@ export class Helper {
 
   /**
    * Determines whether the specified node is a child of the given parent element.
-   * @param node Child node.
    * @param parent Parent element.
+   * @param node Child node.
    * @returns Returns true when the specified node is child of the given parent, false otherwise.
    */
   @Class.Public()
-  public static isChildOf(node: Node, parent: HTMLElement): boolean {
+  public static childOf(parent: HTMLElement | ShadowRoot, node: Node): boolean {
     while (node.parentElement) {
       if (node.parentElement === parent) {
         return true;
@@ -172,13 +172,13 @@ export class Helper {
    * @param properties Element properties.
    */
   @Class.Private()
-  private static assignProperties(element: any, properties: Properties): void {
+  private static assignProperties(element: HTMLElement, properties: Properties): void {
     for (const property in properties) {
       if (properties[property] === void 0) {
         continue;
       }
       if (property in element) {
-        element[property] = properties[property];
+        (element as any)[property] = properties[property];
       } else {
         const event = property.toLowerCase();
         if (this.eventMap.includes(event)) {
@@ -198,11 +198,11 @@ export class Helper {
    * @returns Returns the element instance.
    */
   @Class.Private()
-  private static createFromElement(type: string, properties: Properties, ...children: Element[]): JSX.Element {
-    const element = <any>document.createElement(type);
+  private static createFromElement(type: string, properties: Properties, ...children: JSX.Element[]): HTMLElement {
+    const element = <HTMLElement>document.createElement(type);
     if (properties) {
       this.assignProperties(element, properties);
     }
-    return this.append(element, ...children);
+    return this.append(element, ...children) as HTMLElement;
   }
 }
