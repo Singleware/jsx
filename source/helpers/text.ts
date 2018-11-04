@@ -13,6 +13,17 @@ import { Properties } from '../properties';
 @Class.Describe()
 export class Helper {
   /**
+   * Decorates the specified class to be a custom element.
+   * @param name Tag name.
+   * @returns Returns the decorator method.
+   */
+  @Class.Public()
+  public static Describe(name: string): Class.ClassDecorator {
+    return (type: Class.Constructor): Class.Constructor => {
+      return type;
+    };
+  }
+  /**
    * Creates an element with the specified type.
    * @param type Component type or native element tag name.
    * @param properties Element properties.

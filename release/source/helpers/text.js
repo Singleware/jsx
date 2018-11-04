@@ -16,6 +16,16 @@ const Class = require("@singleware/class");
  */
 let Helper = class Helper {
     /**
+     * Decorates the specified class to be a custom element.
+     * @param name Tag name.
+     * @returns Returns the decorator method.
+     */
+    static Describe(name) {
+        return (type) => {
+            return type;
+        };
+    }
+    /**
      * Creates an element with the specified type.
      * @param type Component type or native element tag name.
      * @param properties Element properties.
@@ -102,6 +112,9 @@ let Helper = class Helper {
         return output;
     }
 };
+__decorate([
+    Class.Public()
+], Helper, "Describe", null);
 __decorate([
     Class.Public()
 ], Helper, "create", null);

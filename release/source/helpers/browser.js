@@ -16,7 +16,18 @@ const Class = require("@singleware/class");
  */
 let Helper = class Helper {
     /**
-     * Creates an element with the specified type.
+     * Decorates the specified class to be a custom element.
+     * @param name Tag name.
+     * @returns Returns the decorator method.
+     */
+    static Describe(name) {
+        return (type) => {
+            window.customElements.define(name, type);
+            return type;
+        };
+    }
+    /**
+     * Creates an element by the specified type.
      * @param type Component type or native element tag name.
      * @param properties Element properties.
      * @param children Element children.
@@ -49,7 +60,7 @@ let Helper = class Helper {
                 this.append(parent, ...child);
             }
             else if (typeof child === 'string' || typeof child === 'number') {
-                this.renderer.innerHTML = child;
+                this.renderer.innerHTML = child.toString();
                 this.append(parent, ...this.renderer.childNodes);
             }
             else if (child) {
@@ -76,7 +87,7 @@ let Helper = class Helper {
         return element;
     }
     /**
-     * Determines whether the specified node is a child of the given parent element.
+     * Determines whether the specified node is child of the given parent element.
      * @param parent Parent element.
      * @param node Child node.
      * @returns Returns true when the specified node is child of the given parent, false otherwise.
@@ -97,19 +108,18 @@ let Helper = class Helper {
      */
     static assignProperties(element, properties) {
         for (const property in properties) {
-            if (properties[property] === void 0) {
-                continue;
-            }
-            if (property in element) {
-                element[property] = properties[property];
-            }
-            else {
-                const event = property.toLowerCase();
-                if (this.eventMap.includes(event)) {
-                    element.addEventListener(event.substr(2), properties[property]);
+            if (properties[property] !== void 0) {
+                if (property in element) {
+                    element[property] = properties[property];
                 }
                 else {
-                    element.setAttribute(property, properties[property]);
+                    const event = property.toLowerCase();
+                    if (this.eventMap.includes(event)) {
+                        element.addEventListener(event.substr(2), properties[property]);
+                    }
+                    else {
+                        element.setAttribute(property, properties[property]);
+                    }
                 }
             }
         }
@@ -118,7 +128,7 @@ let Helper = class Helper {
      * Creates a native element with the specified type.
      * @param type Element type.
      * @param properties Element properties.
-     * @param children Element children list.
+     * @param children Children list.
      * @returns Returns the element instance.
      */
     static createFromElement(type, properties, ...children) {
@@ -208,6 +218,9 @@ __decorate([
 __decorate([
     Class.Private()
 ], Helper, "renderer", void 0);
+__decorate([
+    Class.Public()
+], Helper, "Describe", null);
 __decorate([
     Class.Public()
 ], Helper, "create", null);

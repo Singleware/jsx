@@ -1,9 +1,20 @@
+/**
+ * Copyright (C) 2018 Silas B. Domingos
+ * This source code is licensed under the MIT License as described in the file LICENSE.
+ */
+import * as Class from '@singleware/class';
 import { Component } from '../component';
 import { Properties } from '../properties';
 /**
  * Provides methods to help with Text DOM.
  */
 export declare class Helper {
+    /**
+     * Decorates the specified class to be a custom element.
+     * @param name Tag name.
+     * @returns Returns the decorator method.
+     */
+    static Describe(name: string): Class.ClassDecorator;
     /**
      * Creates an element with the specified type.
      * @param type Component type or native element tag name.
