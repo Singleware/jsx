@@ -14,7 +14,44 @@ const Class = require("@singleware/class");
 /**
  * Provides methods to help with Browser DOM.
  */
-let Helper = class Helper {
+let Helper = class Helper extends Class.Null {
+    /**
+     * Assign the specified properties into the given element.
+     * @param element Element instance.
+     * @param properties Element properties.
+     */
+    static assignProperties(element, properties) {
+        for (const property in properties) {
+            if (properties[property] !== void 0) {
+                if (property in element) {
+                    element[property] = properties[property];
+                }
+                else {
+                    const event = property.toLowerCase();
+                    if (this.eventMap.includes(event)) {
+                        element.addEventListener(event.substr(2), properties[property]);
+                    }
+                    else {
+                        element.setAttribute(property, properties[property]);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * Creates a native element with the specified type.
+     * @param type Element type.
+     * @param properties Element properties.
+     * @param children Children list.
+     * @returns Returns the element instance.
+     */
+    static createFromElement(type, properties, ...children) {
+        const element = this.append(document.createElement(type), ...children);
+        if (properties) {
+            this.assignProperties(element, properties);
+        }
+        return element;
+    }
     /**
      * Decorates the specified class to be a custom element.
      * @param name Tag name.
@@ -101,43 +138,6 @@ let Helper = class Helper {
         }
         return false;
     }
-    /**
-     * Assign the specified properties into the given element.
-     * @param element Element instance.
-     * @param properties Element properties.
-     */
-    static assignProperties(element, properties) {
-        for (const property in properties) {
-            if (properties[property] !== void 0) {
-                if (property in element) {
-                    element[property] = properties[property];
-                }
-                else {
-                    const event = property.toLowerCase();
-                    if (this.eventMap.includes(event)) {
-                        element.addEventListener(event.substr(2), properties[property]);
-                    }
-                    else {
-                        element.setAttribute(property, properties[property]);
-                    }
-                }
-            }
-        }
-    }
-    /**
-     * Creates a native element with the specified type.
-     * @param type Element type.
-     * @param properties Element properties.
-     * @param children Children list.
-     * @returns Returns the element instance.
-     */
-    static createFromElement(type, properties, ...children) {
-        const element = document.createElement(type);
-        if (properties) {
-            this.assignProperties(element, properties);
-        }
-        return this.append(element, ...children);
-    }
 };
 /**
  * Known events to automate listeners.
@@ -219,6 +219,12 @@ __decorate([
     Class.Private()
 ], Helper, "renderer", void 0);
 __decorate([
+    Class.Private()
+], Helper, "assignProperties", null);
+__decorate([
+    Class.Private()
+], Helper, "createFromElement", null);
+__decorate([
     Class.Public()
 ], Helper, "Describe", null);
 __decorate([
@@ -233,12 +239,6 @@ __decorate([
 __decorate([
     Class.Public()
 ], Helper, "childOf", null);
-__decorate([
-    Class.Private()
-], Helper, "assignProperties", null);
-__decorate([
-    Class.Private()
-], Helper, "createFromElement", null);
 Helper = __decorate([
     Class.Describe()
 ], Helper);

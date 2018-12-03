@@ -8,7 +8,7 @@ import { Properties } from '../properties';
 /**
  * Provides methods to help with Browser DOM.
  */
-export declare class Helper {
+export declare class Helper extends Class.Null {
     /**
      * Known events to automate listeners.
      */
@@ -17,6 +17,20 @@ export declare class Helper {
      * Renderer for temporary elements.
      */
     private static renderer;
+    /**
+     * Assign the specified properties into the given element.
+     * @param element Element instance.
+     * @param properties Element properties.
+     */
+    private static assignProperties;
+    /**
+     * Creates a native element with the specified type.
+     * @param type Element type.
+     * @param properties Element properties.
+     * @param children Children list.
+     * @returns Returns the element instance.
+     */
+    private static createFromElement;
     /**
      * Decorates the specified class to be a custom element.
      * @param name Tag name.
@@ -52,18 +66,4 @@ export declare class Helper {
      * @returns Returns true when the specified node is child of the given parent, false otherwise.
      */
     static childOf(parent: HTMLElement | ShadowRoot, node: Node): boolean;
-    /**
-     * Assign the specified properties into the given element.
-     * @param element Element instance.
-     * @param properties Element properties.
-     */
-    private static assignProperties;
-    /**
-     * Creates a native element with the specified type.
-     * @param type Element type.
-     * @param properties Element properties.
-     * @param children Children list.
-     * @returns Returns the element instance.
-     */
-    private static createFromElement;
 }

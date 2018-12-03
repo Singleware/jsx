@@ -14,7 +14,7 @@ const Class = require("@singleware/class");
 /**
  * Provides methods to help with Text DOM.
  */
-let Helper = class Helper {
+let Helper = class Helper extends Class.Null {
     /**
      * Decorates the specified class to be a custom element.
      * @param name Tag name.

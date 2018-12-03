@@ -11,7 +11,7 @@ import { Properties } from '../properties';
  * Provides methods to help with Browser DOM.
  */
 @Class.Describe()
-export class Helper {
+export class Helper extends Class.Null {
   /**
    * Known events to automate listeners.
    */
@@ -88,6 +88,45 @@ export class Helper {
    */
   @Class.Private()
   private static renderer = document.createElement('body') as HTMLBodyElement;
+
+  /**
+   * Assign the specified properties into the given element.
+   * @param element Element instance.
+   * @param properties Element properties.
+   */
+  @Class.Private()
+  private static assignProperties(element: HTMLElement, properties: Properties): void {
+    for (const property in properties) {
+      if (properties[property] !== void 0) {
+        if (property in element) {
+          (element as any)[property] = properties[property];
+        } else {
+          const event = property.toLowerCase();
+          if (this.eventMap.includes(event)) {
+            element.addEventListener(event.substr(2), properties[property]);
+          } else {
+            element.setAttribute(property, properties[property]);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Creates a native element with the specified type.
+   * @param type Element type.
+   * @param properties Element properties.
+   * @param children Children list.
+   * @returns Returns the element instance.
+   */
+  @Class.Private()
+  private static createFromElement(type: string, properties: Properties, ...children: any[]): HTMLElement {
+    const element = this.append(document.createElement(type), ...children) as HTMLElement;
+    if (properties) {
+      this.assignProperties(element, properties);
+    }
+    return element;
+  }
 
   /**
    * Decorates the specified class to be a custom element.
@@ -177,44 +216,5 @@ export class Helper {
       node = node.parentElement;
     }
     return false;
-  }
-
-  /**
-   * Assign the specified properties into the given element.
-   * @param element Element instance.
-   * @param properties Element properties.
-   */
-  @Class.Private()
-  private static assignProperties(element: HTMLElement, properties: Properties): void {
-    for (const property in properties) {
-      if (properties[property] !== void 0) {
-        if (property in element) {
-          (element as any)[property] = properties[property];
-        } else {
-          const event = property.toLowerCase();
-          if (this.eventMap.includes(event)) {
-            element.addEventListener(event.substr(2), properties[property]);
-          } else {
-            element.setAttribute(property, properties[property]);
-          }
-        }
-      }
-    }
-  }
-
-  /**
-   * Creates a native element with the specified type.
-   * @param type Element type.
-   * @param properties Element properties.
-   * @param children Children list.
-   * @returns Returns the element instance.
-   */
-  @Class.Private()
-  private static createFromElement(type: string, properties: Properties, ...children: any[]): HTMLElement {
-    const element = document.createElement(type);
-    if (properties) {
-      this.assignProperties(element, properties);
-    }
-    return this.append(element, ...children) as HTMLElement;
   }
 }

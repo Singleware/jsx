@@ -8,7 +8,7 @@ import { Properties } from '../properties';
 /**
  * Provides methods to help with Text DOM.
  */
-export declare class Helper {
+export declare class Helper extends Class.Null {
     /**
      * Decorates the specified class to be a custom element.
      * @param name Tag name.
