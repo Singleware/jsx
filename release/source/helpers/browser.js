@@ -206,7 +206,8 @@ Helper.eventMap = [
     'onvolumechange',
     'onwaiting',
     // Misc events
-    'ontoggle'
+    'ontoggle',
+    'onslotchange'
 ];
 /**
  * Renderer for temporary elements.

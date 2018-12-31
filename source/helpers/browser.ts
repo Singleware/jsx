@@ -80,7 +80,8 @@ export class Helper extends Class.Null {
     'onvolumechange',
     'onwaiting',
     // Misc events
-    'ontoggle'
+    'ontoggle',
+    'onslotchange'
   ] as string[];
 
   /**
