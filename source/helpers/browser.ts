@@ -4,6 +4,7 @@
  */
 import * as Class from '@singleware/class';
 
+import { Common } from './common';
 import { Component } from '../component';
 import { Properties } from '../properties';
 
@@ -205,16 +206,19 @@ export class Helper extends Class.Null {
   /**
    * Unwraps the specified element into its parent.
    * @param element Element instance.
+   * @throws Throws an error when the specified element has no parent.
    */
   @Class.Public()
   public static unwrap(element: HTMLElement): void {
-    const parent = element.parentNode;
-    if (parent) {
-      while (element.firstChild) {
-        parent.insertBefore(element.firstChild, element);
-      }
+    const parent = element.parentElement;
+    if (!parent) {
+      throw new Error(`The specified element has no parent.`);
+    }
+    while (element.firstChild) {
+      parent.insertBefore(element.firstChild, element);
     }
     element.remove();
+    parent.normalize();
   }
 
   /**
@@ -225,12 +229,22 @@ export class Helper extends Class.Null {
    */
   @Class.Public()
   public static childOf(parent: HTMLElement | ShadowRoot, node: Node): boolean {
-    while (node.parentElement) {
+    while (node && node.parentElement) {
       if (node.parentElement === parent) {
         return true;
       }
       node = node.parentElement;
     }
     return false;
+  }
+
+  /**
+   * Escape any special HTML characters in the given input string.
+   * @param input Input string.
+   * @returns Returns the escaped input string.
+   */
+  @Class.Public()
+  public static escape(input: string): string {
+    return Common.escape(input);
   }
 }

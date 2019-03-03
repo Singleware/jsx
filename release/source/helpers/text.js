@@ -11,85 +11,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
+const common_1 = require("./common");
 /**
  * Provides methods to help with Text DOM.
  */
 let Helper = class Helper extends Class.Null {
-    /**
-     * Decorates the specified class to be a custom element.
-     * @param name Tag name.
-     * @returns Returns the decorator method.
-     */
-    static Describe(name) {
-        return (type) => {
-            return type;
-        };
-    }
-    /**
-     * Creates an element with the specified type.
-     * @param type Component type or native element tag name.
-     * @param properties Element properties.
-     * @param children Element children.
-     * @throws Throws an error when the element or component type is not supported.
-     */
-    static create(type, properties, ...children) {
-        if (type instanceof Function) {
-            return new type(properties, children).element;
-        }
-        else if (typeof type === 'string') {
-            return `<${type}${this.getProperties(properties)}>${this.getChildren(children)}</${type}>`;
-        }
-        else {
-            throw new TypeError(`Unsupported element or component type "${type}"`);
-        }
-    }
-    /**
-     * Appends the specified children into the given parent element. (Not supported in text mode)
-     * @param parent Parent element.
-     * @param children Children elements.
-     * @returns Returns the parent element.
-     * @throws Throws a type error when the child type is unsupported.
-     */
-    static append(parent, ...children) {
-        throw new Error(`Operation not supported in text mode.`);
-    }
-    /**
-     * Clear all children of the specified element. (Not supported in text mode)
-     * @param element Element instance.
-     * @returns Returns the cleared element instance.
-     */
-    static clear(element) {
-        throw new Error(`Operation not supported in text mode.`);
-    }
-    /**
-     * Unwraps the specified element into its parent.
-     * @param element Element instance.
-     */
-    static unwrap(element) {
-        throw new Error(`Operation not supported in text mode.`);
-    }
-    /**
-     * Determines whether the specified node is a child of the given parent element. (Not supported in text mode)
-     * @param parent Parent element.
-     * @param node Child node.
-     * @returns Returns true when the specified node is child of the given parent, false otherwise.
-     */
-    static childOf(parent, node) {
-        throw new Error(`Operation not supported in text mode.`);
-    }
     /**
      * Gets a string with all given properties.
      * @param properties Element properties.
      * @returns Returns the element properties string.
      */
     static getProperties(properties) {
-        let output = '';
+        let list = [];
         for (const property in properties) {
             if (properties[property] !== void 0) {
-                output += ` ${property.toLowerCase()}="${properties[property]}"`;
+                list.push(`${property.toLowerCase()}="${this.escape(properties[property])}"`);
             }
         }
-        return output;
+        return list.join(' ');
     }
     /**
      * Gets a string with all given children.
@@ -118,7 +57,91 @@ let Helper = class Helper extends Class.Null {
         }
         return output;
     }
+    /**
+     * Decorates the specified class to be a custom element.
+     * @param name Tag name.
+     * @returns Returns the decorator method.
+     */
+    static Describe(name) {
+        return (type) => {
+            return type;
+        };
+    }
+    /**
+     * Creates an element with the specified type.
+     * @param type Component type or native element tag name.
+     * @param properties Element properties.
+     * @param children Element children.
+     * @throws Throws an error when the element or component type is not supported.
+     */
+    static create(type, properties, ...children) {
+        if (type instanceof Function) {
+            return new type(properties, children).element;
+        }
+        else if (typeof type === 'string') {
+            const attributes = this.getProperties(properties);
+            const content = this.getChildren(children);
+            if (content.length) {
+                return `<${type}${attributes.length ? ` ${attributes}` : ''}>${content}</${type}>`;
+            }
+            else {
+                return `<${type}${attributes.length ? ` ${attributes}` : ''}/>`;
+            }
+        }
+        else {
+            throw new TypeError(`Unsupported element or component type "${type}"`);
+        }
+    }
+    /**
+     * Appends the specified children into the given parent element. (Not supported in text mode)
+     * @param parent Parent element.
+     * @param children Children elements.
+     * @returns Returns the parent element.
+     * @throws Throws a type error when the child type is unsupported.
+     */
+    static append(parent, ...children) {
+        throw new Error(`Operation not supported in text mode.`);
+    }
+    /**
+     * Clear all children of the specified element. (Not supported in text mode)
+     * @param element Element instance.
+     * @returns Returns the cleared element instance.
+     */
+    static clear(element) {
+        throw new Error(`Operation not supported in text mode.`);
+    }
+    /**
+     * Unwraps the specified element into its parent.
+     * @param element Element instance.
+     * @throws Throws an error when the specified element has no parent.
+     */
+    static unwrap(element) {
+        throw new Error(`Operation not supported in text mode.`);
+    }
+    /**
+     * Determines whether the specified node is a child of the given parent element. (Not supported in text mode)
+     * @param parent Parent element.
+     * @param node Child node.
+     * @returns Returns true when the specified node is child of the given parent, false otherwise.
+     */
+    static childOf(parent, node) {
+        throw new Error(`Operation not supported in text mode.`);
+    }
+    /**
+     * Escape any special HTML characters in the given input string.
+     * @param input Input string.
+     * @returns Returns the escaped input string.
+     */
+    static escape(input) {
+        return common_1.Common.escape(input);
+    }
 };
+__decorate([
+    Class.Private()
+], Helper, "getProperties", null);
+__decorate([
+    Class.Private()
+], Helper, "getChildren", null);
 __decorate([
     Class.Public()
 ], Helper, "Describe", null);
@@ -138,11 +161,8 @@ __decorate([
     Class.Public()
 ], Helper, "childOf", null);
 __decorate([
-    Class.Private()
-], Helper, "getProperties", null);
-__decorate([
-    Class.Private()
-], Helper, "getChildren", null);
+    Class.Public()
+], Helper, "escape", null);
 Helper = __decorate([
     Class.Describe()
 ], Helper);

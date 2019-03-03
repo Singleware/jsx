@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
+const common_1 = require("./common");
 /**
  * Provides methods to help with Browser DOM.
  */
@@ -126,15 +127,18 @@ let Helper = class Helper extends Class.Null {
     /**
      * Unwraps the specified element into its parent.
      * @param element Element instance.
+     * @throws Throws an error when the specified element has no parent.
      */
     static unwrap(element) {
-        const parent = element.parentNode;
-        if (parent) {
-            while (element.firstChild) {
-                parent.insertBefore(element.firstChild, element);
-            }
+        const parent = element.parentElement;
+        if (!parent) {
+            throw new Error(`The specified element has no parent.`);
+        }
+        while (element.firstChild) {
+            parent.insertBefore(element.firstChild, element);
         }
         element.remove();
+        parent.normalize();
     }
     /**
      * Determines whether the specified node is child of the given parent element.
@@ -143,13 +147,21 @@ let Helper = class Helper extends Class.Null {
      * @returns Returns true when the specified node is child of the given parent, false otherwise.
      */
     static childOf(parent, node) {
-        while (node.parentElement) {
+        while (node && node.parentElement) {
             if (node.parentElement === parent) {
                 return true;
             }
             node = node.parentElement;
         }
         return false;
+    }
+    /**
+     * Escape any special HTML characters in the given input string.
+     * @param input Input string.
+     * @returns Returns the escaped input string.
+     */
+    static escape(input) {
+        return common_1.Common.escape(input);
     }
 };
 /**
@@ -256,6 +268,9 @@ __decorate([
 __decorate([
     Class.Public()
 ], Helper, "childOf", null);
+__decorate([
+    Class.Public()
+], Helper, "escape", null);
 Helper = __decorate([
     Class.Describe()
 ], Helper);

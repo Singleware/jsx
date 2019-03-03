@@ -4,6 +4,7 @@
  */
 import * as Class from '@singleware/class';
 
+import { Common } from './common';
 import { Component } from '../component';
 import { Properties } from '../properties';
 
@@ -12,6 +13,48 @@ import { Properties } from '../properties';
  */
 @Class.Describe()
 export class Helper extends Class.Null {
+  /**
+   * Gets a string with all given properties.
+   * @param properties Element properties.
+   * @returns Returns the element properties string.
+   */
+  @Class.Private()
+  private static getProperties(properties: Properties): string {
+    let list = [];
+    for (const property in properties) {
+      if (properties[property] !== void 0) {
+        list.push(`${property.toLowerCase()}="${this.escape(properties[property])}"`);
+      }
+    }
+    return list.join(' ');
+  }
+
+  /**
+   * Gets a string with all given children.
+   * @param children Children list.
+   * @returns Returns the children list string.
+   * @throws Throws an error when the child type is not supported.
+   */
+  @Class.Private()
+  private static getChildren(children: any[]): string {
+    let output = '';
+    for (const child of children) {
+      if (typeof child === 'string' || typeof child === 'number') {
+        output += child;
+      } else if (child instanceof Array) {
+        output += this.getChildren(child);
+      } else if (child) {
+        const node = child.element;
+        if (node) {
+          output += this.getChildren([node]);
+        } else {
+          throw new TypeError(`Unsupported child type "${child}"`);
+        }
+      }
+    }
+    return output;
+  }
+
   /**
    * Decorates the specified class to be a custom element.
    * @param name Tag name.
@@ -35,7 +78,13 @@ export class Helper extends Class.Null {
     if (type instanceof Function) {
       return new type(properties, children).element;
     } else if (typeof type === 'string') {
-      return `<${type}${this.getProperties(properties)}>${this.getChildren(children)}</${type}>`;
+      const attributes = this.getProperties(properties);
+      const content = this.getChildren(children);
+      if (content.length) {
+        return `<${type}${attributes.length ? ` ${attributes}` : ''}>${content}</${type}>`;
+      } else {
+        return `<${type}${attributes.length ? ` ${attributes}` : ''}/>`;
+      }
     } else {
       throw new TypeError(`Unsupported element or component type "${type}"`);
     }
@@ -66,6 +115,7 @@ export class Helper extends Class.Null {
   /**
    * Unwraps the specified element into its parent.
    * @param element Element instance.
+   * @throws Throws an error when the specified element has no parent.
    */
   @Class.Public()
   public static unwrap(element: HTMLElement): void {
@@ -84,44 +134,12 @@ export class Helper extends Class.Null {
   }
 
   /**
-   * Gets a string with all given properties.
-   * @param properties Element properties.
-   * @returns Returns the element properties string.
+   * Escape any special HTML characters in the given input string.
+   * @param input Input string.
+   * @returns Returns the escaped input string.
    */
-  @Class.Private()
-  private static getProperties(properties: Properties): string {
-    let output = '';
-    for (const property in properties) {
-      if (properties[property] !== void 0) {
-        output += ` ${property.toLowerCase()}="${properties[property]}"`;
-      }
-    }
-    return output;
-  }
-
-  /**
-   * Gets a string with all given children.
-   * @param children Children list.
-   * @returns Returns the children list string.
-   * @throws Throws an error when the child type is not supported.
-   */
-  @Class.Private()
-  private static getChildren(children: any[]): string {
-    let output = '';
-    for (const child of children) {
-      if (typeof child === 'string' || typeof child === 'number') {
-        output += child;
-      } else if (child instanceof Array) {
-        output += this.getChildren(child);
-      } else if (child) {
-        const node = child.element;
-        if (node) {
-          output += this.getChildren([node]);
-        } else {
-          throw new TypeError(`Unsupported child type "${child}"`);
-        }
-      }
-    }
-    return output;
+  @Class.Public()
+  public static escape(input: string): string {
+    return Common.escape(input);
   }
 }

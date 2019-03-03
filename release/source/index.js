@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Current helper according to the environment.
+ */
 const Helper = require(`./helpers/${typeof window !== 'undefined' ? 'browser' : 'text'}`).Helper;
 /**
  * Decorates the specified class to be a custom element.
@@ -32,6 +35,7 @@ exports.clear = (element) => Helper.clear(element);
 /**
  * Unwraps the specified element into its parent.
  * @param element Element instance.
+ * @throws Throws an error when the specified element has no parent.
  */
 exports.unwrap = (element) => Helper.unwrap(element);
 /**
@@ -41,3 +45,9 @@ exports.unwrap = (element) => Helper.unwrap(element);
  * @returns Returns true when the specified node is child of the given parent, false otherwise.
  */
 exports.childOf = (parent, node) => Helper.childOf(parent, node);
+/**
+ * Escape any special HTML character in the given input string.
+ * @param input Input string.
+ * @returns Returns the escaped input string.
+ */
+exports.escape = (input) => Helper.escape(input);

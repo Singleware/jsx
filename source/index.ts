@@ -13,6 +13,9 @@ import * as Class from '@singleware/class';
 import { Component } from './component';
 import { Properties } from './properties';
 
+/**
+ * Current helper according to the environment.
+ */
 const Helper = require(`./helpers/${typeof window !== 'undefined' ? 'browser' : 'text'}`).Helper;
 
 /**
@@ -52,6 +55,7 @@ export const clear = (element: HTMLElement | ShadowRoot): HTMLElement | ShadowRo
 /**
  * Unwraps the specified element into its parent.
  * @param element Element instance.
+ * @throws Throws an error when the specified element has no parent.
  */
 export const unwrap = (element: HTMLElement): void => Helper.unwrap(element);
 
@@ -62,3 +66,10 @@ export const unwrap = (element: HTMLElement): void => Helper.unwrap(element);
  * @returns Returns true when the specified node is child of the given parent, false otherwise.
  */
 export const childOf = (parent: HTMLElement | ShadowRoot, node: Node): boolean => Helper.childOf(parent, node);
+
+/**
+ * Escape any special HTML character in the given input string.
+ * @param input Input string.
+ * @returns Returns the escaped input string.
+ */
+export const escape = (input: string): string => Helper.escape(input);

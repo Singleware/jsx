@@ -10,6 +10,19 @@ import { Properties } from '../properties';
  */
 export declare class Helper extends Class.Null {
     /**
+     * Gets a string with all given properties.
+     * @param properties Element properties.
+     * @returns Returns the element properties string.
+     */
+    private static getProperties;
+    /**
+     * Gets a string with all given children.
+     * @param children Children list.
+     * @returns Returns the children list string.
+     * @throws Throws an error when the child type is not supported.
+     */
+    private static getChildren;
+    /**
      * Decorates the specified class to be a custom element.
      * @param name Tag name.
      * @returns Returns the decorator method.
@@ -40,6 +53,7 @@ export declare class Helper extends Class.Null {
     /**
      * Unwraps the specified element into its parent.
      * @param element Element instance.
+     * @throws Throws an error when the specified element has no parent.
      */
     static unwrap(element: HTMLElement): void;
     /**
@@ -50,16 +64,9 @@ export declare class Helper extends Class.Null {
      */
     static childOf(parent: HTMLElement, node: Node): boolean;
     /**
-     * Gets a string with all given properties.
-     * @param properties Element properties.
-     * @returns Returns the element properties string.
+     * Escape any special HTML characters in the given input string.
+     * @param input Input string.
+     * @returns Returns the escaped input string.
      */
-    private static getProperties;
-    /**
-     * Gets a string with all given children.
-     * @param children Children list.
-     * @returns Returns the children list string.
-     * @throws Throws an error when the child type is not supported.
-     */
-    private static getChildren;
+    static escape(input: string): string;
 }

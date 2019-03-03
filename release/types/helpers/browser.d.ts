@@ -62,6 +62,7 @@ export declare class Helper extends Class.Null {
     /**
      * Unwraps the specified element into its parent.
      * @param element Element instance.
+     * @throws Throws an error when the specified element has no parent.
      */
     static unwrap(element: HTMLElement): void;
     /**
@@ -71,4 +72,10 @@ export declare class Helper extends Class.Null {
      * @returns Returns true when the specified node is child of the given parent, false otherwise.
      */
     static childOf(parent: HTMLElement | ShadowRoot, node: Node): boolean;
+    /**
+     * Escape any special HTML characters in the given input string.
+     * @param input Input string.
+     * @returns Returns the escaped input string.
+     */
+    static escape(input: string): string;
 }

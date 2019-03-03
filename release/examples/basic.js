@@ -8,6 +8,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * dynamic HTML.
  */
 const JSX = require("../source");
-const link = JSX.create("a", { href: "/test" }, "Test link.");
+const link = (JSX.create("a", { href: "/test", style: "font-family: 'Open sans';" }, "Test link."));
 const div = JSX.create("div", null, link);
 console.log(div);

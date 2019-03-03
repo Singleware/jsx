@@ -41,6 +41,7 @@ export declare const clear: (element: HTMLElement | ShadowRoot) => HTMLElement |
 /**
  * Unwraps the specified element into its parent.
  * @param element Element instance.
+ * @throws Throws an error when the specified element has no parent.
  */
 export declare const unwrap: (element: HTMLElement) => void;
 /**
@@ -50,3 +51,9 @@ export declare const unwrap: (element: HTMLElement) => void;
  * @returns Returns true when the specified node is child of the given parent, false otherwise.
  */
 export declare const childOf: (parent: HTMLElement | ShadowRoot, node: Node) => boolean;
+/**
+ * Escape any special HTML character in the given input string.
+ * @param input Input string.
+ * @returns Returns the escaped input string.
+ */
+export declare const escape: (input: string) => string;
