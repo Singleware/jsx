@@ -7,12 +7,12 @@
   "name": "@singleware/jsx",
   "description": "Singleware JSX package.",
   "license": "MIT",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [
-    "jsx templates",
-    "jsx components",
+    "jsx",
+    "tsx",
     "web components",
     "custom elements",
     "shadow dom"
@@ -40,7 +40,7 @@
   },
   "scripts": {
     "build": "npm run make && npm run update",
-    "make": "tsc",
+    "make": "npx tsc -p ./source",
     "update": "cp -Rf ./source/*.d.ts ./release/types"
   }
 }

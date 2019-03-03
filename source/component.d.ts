@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
-/// <reference path="./types.d.ts"/>
+/// <reference path="./jsx.d.ts"/>
 
 import { Properties } from './properties';
 

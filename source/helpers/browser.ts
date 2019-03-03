@@ -203,6 +203,21 @@ export class Helper extends Class.Null {
   }
 
   /**
+   * Unwraps the specified element into its parent.
+   * @param element Element instance.
+   */
+  @Class.Public()
+  public static unwrap(element: HTMLElement): void {
+    const parent = element.parentNode;
+    if (parent) {
+      while (element.firstChild) {
+        parent.insertBefore(element.firstChild, element);
+      }
+    }
+    element.remove();
+  }
+
+  /**
    * Determines whether the specified node is child of the given parent element.
    * @param parent Parent element.
    * @param node Child node.

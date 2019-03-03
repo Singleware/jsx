@@ -50,6 +50,12 @@ export const append = (parent: HTMLElement | ShadowRoot, ...children: any[]): HT
 export const clear = (element: HTMLElement | ShadowRoot): HTMLElement | ShadowRoot => Helper.clear(element);
 
 /**
+ * Unwraps the specified element into its parent.
+ * @param element Element instance.
+ */
+export const unwrap = (element: HTMLElement): void => Helper.unwrap(element);
+
+/**
  * Determines whether the specified node is child of the given parent element.
  * @param parent Parent element.
  * @param node Child node.

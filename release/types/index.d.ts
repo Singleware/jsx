@@ -39,6 +39,11 @@ export declare const append: (parent: HTMLElement | ShadowRoot, ...children: any
  */
 export declare const clear: (element: HTMLElement | ShadowRoot) => HTMLElement | ShadowRoot;
 /**
+ * Unwraps the specified element into its parent.
+ * @param element Element instance.
+ */
+export declare const unwrap: (element: HTMLElement) => void;
+/**
  * Determines whether the specified node is child of the given parent element.
  * @param parent Parent element.
  * @param node Child node.

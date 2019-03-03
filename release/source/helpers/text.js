@@ -62,6 +62,13 @@ let Helper = class Helper extends Class.Null {
         throw new Error(`Operation not supported in text mode.`);
     }
     /**
+     * Unwraps the specified element into its parent.
+     * @param element Element instance.
+     */
+    static unwrap(element) {
+        throw new Error(`Operation not supported in text mode.`);
+    }
+    /**
      * Determines whether the specified node is a child of the given parent element. (Not supported in text mode)
      * @param parent Parent element.
      * @param node Child node.
@@ -124,6 +131,9 @@ __decorate([
 __decorate([
     Class.Public()
 ], Helper, "clear", null);
+__decorate([
+    Class.Public()
+], Helper, "unwrap", null);
 __decorate([
     Class.Public()
 ], Helper, "childOf", null);

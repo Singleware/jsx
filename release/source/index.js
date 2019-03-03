@@ -30,6 +30,11 @@ exports.append = (parent, ...children) => Helper.append(parent, ...children);
  */
 exports.clear = (element) => Helper.clear(element);
 /**
+ * Unwraps the specified element into its parent.
+ * @param element Element instance.
+ */
+exports.unwrap = (element) => Helper.unwrap(element);
+/**
  * Determines whether the specified node is child of the given parent element.
  * @param parent Parent element.
  * @param node Child node.

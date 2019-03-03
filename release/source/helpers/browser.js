@@ -124,6 +124,19 @@ let Helper = class Helper extends Class.Null {
         return element;
     }
     /**
+     * Unwraps the specified element into its parent.
+     * @param element Element instance.
+     */
+    static unwrap(element) {
+        const parent = element.parentNode;
+        if (parent) {
+            while (element.firstChild) {
+                parent.insertBefore(element.firstChild, element);
+            }
+        }
+        element.remove();
+    }
+    /**
      * Determines whether the specified node is child of the given parent element.
      * @param parent Parent element.
      * @param node Child node.
@@ -237,6 +250,9 @@ __decorate([
 __decorate([
     Class.Public()
 ], Helper, "clear", null);
+__decorate([
+    Class.Public()
+], Helper, "unwrap", null);
 __decorate([
     Class.Public()
 ], Helper, "childOf", null);

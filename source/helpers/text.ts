@@ -64,6 +64,15 @@ export class Helper extends Class.Null {
   }
 
   /**
+   * Unwraps the specified element into its parent.
+   * @param element Element instance.
+   */
+  @Class.Public()
+  public static unwrap(element: HTMLElement): void {
+    throw new Error(`Operation not supported in text mode.`);
+  }
+
+  /**
    * Determines whether the specified node is a child of the given parent element. (Not supported in text mode)
    * @param parent Parent element.
    * @param node Child node.

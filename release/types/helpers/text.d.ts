@@ -38,6 +38,11 @@ export declare class Helper extends Class.Null {
      */
     static clear(element: HTMLElement | ShadowRoot): HTMLElement | ShadowRoot;
     /**
+     * Unwraps the specified element into its parent.
+     * @param element Element instance.
+     */
+    static unwrap(element: HTMLElement): void;
+    /**
      * Determines whether the specified node is a child of the given parent element. (Not supported in text mode)
      * @param parent Parent element.
      * @param node Child node.
