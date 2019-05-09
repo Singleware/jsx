@@ -7,7 +7,7 @@
   "name": "@singleware/jsx",
   "description": "Singleware JSX package.",
   "license": "MIT",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [

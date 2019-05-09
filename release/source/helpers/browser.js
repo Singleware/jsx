@@ -106,6 +106,9 @@ let Helper = class Helper extends Class.Null {
                 if (node instanceof Node) {
                     this.append(parent, node);
                 }
+                else if (node instanceof Array) {
+                    this.append(parent, ...node);
+                }
                 else {
                     throw new TypeError(`Unsupported child type "${child}"`);
                 }
