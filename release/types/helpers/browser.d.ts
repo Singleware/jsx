@@ -1,12 +1,12 @@
-/**
- * Copyright (C) 2018 Silas B. Domingos
+/*!
+ * Copyright (C) 2018-2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 import * as Class from '@singleware/class';
 import { Component } from '../component';
 import { Properties } from '../properties';
 /**
- * Provides methods to help with Browser DOM.
+ * Provides methods to help Browser DOM.
  */
 export declare class Helper extends Class.Null {
     /**
@@ -14,7 +14,7 @@ export declare class Helper extends Class.Null {
      */
     private static eventMap;
     /**
-     * Renderer for temporary elements.
+     * Renderer for temp elements.
      */
     private static renderer;
     /**

@@ -1,7 +1,9 @@
-/**
- * Copyright (C) 2018 Silas B. Domingos
+/*!
+ * Copyright (C) 2018-2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
+export type Element = JSX.Element;
+
 export { Component } from './component';
 export { Properties } from './properties';
 
@@ -32,8 +34,7 @@ export const Describe = (name: string): Class.ClassDecorator => Helper.Describe(
  * @param children Element children.
  * @throws Throws a type error when the element or component type is unsupported.
  */
-export const create = (type: string | Component, properties: Properties, ...children: any[]): JSX.Element =>
-  Helper.create(type, properties, ...children);
+export const create = (type: string | Component, properties: Properties, ...children: any[]): JSX.Element => Helper.create(type, properties, ...children);
 
 /**
  * Appends the specified children into the given parent element.
@@ -42,8 +43,7 @@ export const create = (type: string | Component, properties: Properties, ...chil
  * @returns Returns the parent element.
  * @throws Throws a type error when the child type is unsupported.
  */
-export const append = (parent: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot =>
-  Helper.append(parent, ...children);
+export const append = (parent: HTMLElement | ShadowRoot, ...children: any[]): HTMLElement | ShadowRoot => Helper.append(parent, ...children);
 
 /**
  * Clear all children of the specified element.

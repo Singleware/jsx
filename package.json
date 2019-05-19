@@ -7,7 +7,7 @@
   "name": "@singleware/jsx",
   "description": "Singleware JSX package.",
   "license": "MIT",
-  "version": "1.0.25",
+  "version": "1.0.27",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [
@@ -33,14 +33,19 @@
     "@types/node": "^10.12.11"
   },
   "prettier": {
-    "printWidth": 140,
+    "printWidth": 180,
     "tabWidth": 2,
     "singleQuote": true,
     "semi": true
   },
   "scripts": {
-    "build": "npm run make && npm run update",
-    "make": "npx tsc -p ./source",
-    "update": "cp -Rf ./source/*.d.ts ./release/types"
+    "build": "npm run clean && npm run make",
+    "clean": "rm -rf ./release",
+    "make": "npm run make-source && npm run make-examples",
+    "make-source": "npm run compile-source && npm run update-source",
+    "compile-source": "tsc -p ./source",
+    "update-source": "cp -Rf ./source/*.d.ts ./release/types",
+    "make-examples": "npm run compile-examples",
+    "compile-examples": "tsc -p ./examples"
   }
 }

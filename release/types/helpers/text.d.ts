@@ -1,12 +1,12 @@
-/**
- * Copyright (C) 2018 Silas B. Domingos
+/*!
+ * Copyright (C) 2018-2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 import * as Class from '@singleware/class';
 import { Component } from '../component';
 import { Properties } from '../properties';
 /**
- * Provides methods to help with Text DOM.
+ * Provides methods to help Text DOM.
  */
 export declare class Helper extends Class.Null {
     /**
