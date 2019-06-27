@@ -220,7 +220,6 @@ export class Helper extends Class.Null {
       parent.insertBefore(element.firstChild, element);
     }
     element.remove();
-    parent.normalize();
   }
 
   /**

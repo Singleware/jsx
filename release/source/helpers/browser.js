@@ -141,7 +141,6 @@ let Helper = class Helper extends Class.Null {
             parent.insertBefore(element.firstChild, element);
         }
         element.remove();
-        parent.normalize();
     }
     /**
      * Determines whether the specified node is child of the given parent element.
