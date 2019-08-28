@@ -15,5 +15,5 @@ export interface Component extends JSX.ElementClass {
    * @param properties Component properties.
    * @param children Component children.
    */
-  new (properties: Properties, children?: any[]): Component;
+  new (properties?: Properties, children?: JSX.Element[]): Component;
 }

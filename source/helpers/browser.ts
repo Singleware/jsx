@@ -212,7 +212,7 @@ export class Helper extends Class.Null {
    */
   @Class.Public()
   public static unwrap(element: HTMLElement): void {
-    const parent = element.parentElement;
+    const parent = element.parentNode;
     if (!parent) {
       throw new Error(`The specified element has no parent.`);
     }

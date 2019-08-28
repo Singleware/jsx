@@ -37,7 +37,7 @@ declare namespace JSX {
     /**
      * JSX element.
      */
-    readonly element: HTMLElement;
+    readonly element: JSX.Element;
   }
 
   /**

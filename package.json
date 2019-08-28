@@ -7,7 +7,7 @@
   "name": "@singleware/jsx",
   "description": "Singleware JSX package.",
   "license": "MIT",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [
@@ -33,7 +33,7 @@
     "@types/node": "^10.12.11"
   },
   "prettier": {
-    "printWidth": 180,
+    "printWidth": 140,
     "tabWidth": 2,
     "singleQuote": true,
     "semi": true

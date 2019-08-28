@@ -133,7 +133,7 @@ let Helper = class Helper extends Class.Null {
      * @throws Throws an error when the specified element has no parent.
      */
     static unwrap(element) {
-        const parent = element.parentElement;
+        const parent = element.parentNode;
         if (!parent) {
             throw new Error(`The specified element has no parent.`);
         }
