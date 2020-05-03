@@ -82,7 +82,7 @@ export class Helper extends Class.Null {
     'onwaiting',
     // Misc events
     'ontoggle',
-    'onslotchange'
+    'onslotchange',
   ] as string[];
 
   /**
@@ -175,7 +175,13 @@ export class Helper extends Class.Null {
         parent.appendChild(child);
       } else if (child instanceof NodeList || child instanceof Array) {
         this.append(parent, ...child);
-      } else if (typeof child === 'string' || typeof child === 'number') {
+      } else if (
+        typeof child === 'string' ||
+        typeof child === 'number' ||
+        (((child instanceof Function && child.toString !== Object.toString) ||
+          (child instanceof Object && child.toString !== Object.prototype.toString)) &&
+          child.toString instanceof Function)
+      ) {
         this.renderer.innerHTML = child.toString();
         this.append(parent, ...this.renderer.childNodes);
       } else if (child) {

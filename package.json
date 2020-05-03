@@ -7,7 +7,7 @@
   "name": "@singleware/jsx",
   "description": "Singleware JSX package.",
   "license": "MIT",
-  "version": "1.0.29",
+  "version": "1.0.32",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [
@@ -28,9 +28,9 @@
     "@singleware/class": "^1.1.14"
   },
   "devDependencies": {
-    "prettier": "^1.15.3",
-    "typescript": "^2.9.2",
-    "@types/node": "^10.12.11"
+    "@types/node": "^13.13.4",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
   },
   "prettier": {
     "printWidth": 140,

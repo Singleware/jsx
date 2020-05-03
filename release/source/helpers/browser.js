@@ -97,7 +97,11 @@ let Helper = class Helper extends Class.Null {
             else if (child instanceof NodeList || child instanceof Array) {
                 this.append(parent, ...child);
             }
-            else if (typeof child === 'string' || typeof child === 'number') {
+            else if (typeof child === 'string' ||
+                typeof child === 'number' ||
+                (((child instanceof Function && child.toString !== Object.toString) ||
+                    (child instanceof Object && child.toString !== Object.prototype.toString)) &&
+                    child.toString instanceof Function)) {
                 this.renderer.innerHTML = child.toString();
                 this.append(parent, ...this.renderer.childNodes);
             }
@@ -234,7 +238,7 @@ Helper.eventMap = [
     'onwaiting',
     // Misc events
     'ontoggle',
-    'onslotchange'
+    'onslotchange',
 ];
 /**
  * Renderer for temp elements.
